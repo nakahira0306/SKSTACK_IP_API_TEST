@@ -29,6 +29,13 @@ public class SKUtil {
 	 * @return 正しい書式のとき:true, 不正な書式のとき:false
 	 */
 	public static boolean isValidIP6Address(String value) {
+		if (value == null) {
+			return false;
+		}
+		else if (value == "") {
+			return false;
+		}
+
 		String regex = "^[0-9a-fA-F]{32}$";
 		String regex2 = "^[0-9a-fA-F]{4}:[0-9a-fA-F]{4}:[0-9a-fA-F]{4}:[0-9a-fA-F]{4}:"
 						+ "[0-9a-fA-F]{4}:[0-9a-fA-F]{4}:[0-9a-fA-F]{4}:[0-9a-fA-F]{4}$";
@@ -174,5 +181,55 @@ public class SKUtil {
 		}
 	}
 
+	/**
+	 * バイト列(byte[])を16進表現文字列に変換
+	 * @param value バイト列
+	 * @return 16進表現文字列
+	 */
+	public static String toHexString(byte[] value) {
+		if(value == null) {
+			return "";
+		}
 
+		StringBuilder sb = new StringBuilder();
+		for(byte b : value) {
+			sb.append(String.format("%02X", b));
+		}
+
+		return new String(sb);
+	}
+
+	/**
+	 * 16進表現文字列をバイト列(byte[])に変換
+	 * @param value 16進表現文字列
+	 * @return バイト列(byte[])
+	 */
+	public static byte[] toByteArray(String value) {
+		int i, j;
+		int len = value.length();
+
+		if (value == null) {
+			return null;
+		}
+		else if (value == "") {
+			return null;
+		}
+		else if ((len % 2) != 0) {
+			return null;
+		}
+
+		try {
+			byte[] byteValue = new byte[len/2];
+			j = 0;
+			for (i = 0; i < byteValue.length; i++) {
+				byteValue[i] = (byte) Integer.parseInt(value.substring(j, j+2), 16);
+				j += 2;
+			}
+
+			return byteValue;
+		}
+		catch (Exception e) {
+			return null;
+		}
+	}
 }
