@@ -14,7 +14,6 @@ import com.skyley.skstack_ip.api.skcommands.SKAddNbr;
 import com.skyley.skstack_ip.api.skcommands.SKClose;
 import com.skyley.skstack_ip.api.skcommands.SKCommand;
 import com.skyley.skstack_ip.api.skcommands.SKConnect;
-import com.skyley.skstack_ip.api.skcommands.SKEAddr;
 import com.skyley.skstack_ip.api.skcommands.SKErase;
 import com.skyley.skstack_ip.api.skcommands.SKInfo;
 import com.skyley.skstack_ip.api.skcommands.SKJoin;
@@ -48,6 +47,7 @@ import com.skyley.skstack_ip.api.skenums.SKEventType;
 import com.skyley.skstack_ip.api.skenums.SKRegister;
 import com.skyley.skstack_ip.api.skenums.SKScanMode;
 import com.skyley.skstack_ip.api.skenums.SKSecOption;
+import com.skyley.skstack_ip.api.skevents.SKEAddr;
 import com.skyley.skstack_ip.api.skevents.SKEHandle;
 import com.skyley.skstack_ip.api.skevents.SKEInfo;
 import com.skyley.skstack_ip.api.skevents.SKENeighbor;
@@ -79,6 +79,8 @@ public class SKDevice {
 	private SKReceiver receiver;
 	/** bufferを読み取り、処理するクラス */
 	private SKRxBufferReader reader;
+	/** デバッグ情報のリスナー */
+	private SKDebugListener debugListener;
 
 	/**
 	 * コンストラクタ
@@ -156,6 +158,10 @@ public class SKDevice {
 	 * @param listener SKEventListenerを実装したクラス
 	 */
 	public void setSKEventListener(SKEventListener listener) {
+		if (reader == null) {
+			return;
+		}
+
 		reader.setSKEventListener(listener);
 	}
 
@@ -164,6 +170,35 @@ public class SKDevice {
 	 */
 	public void removeSKEventListner() {
 		reader.removeSKEventListener();
+	}
+
+	/**
+	 * デバイスに登録されているデバッグ情報のリスナーを取得
+	 * @return デバッグ情報のリスナー
+	 */
+	public SKDebugListener getSKDebugListener() {
+		return debugListener;
+	}
+
+	/**
+	 * デバッグ情報のリスナーを登録
+	 * @param listener デバッグ情報のリスナー、SKDebugListenerを実装したクラス
+	 */
+	public void setSKDebugListener(SKDebugListener listener) {
+		if (reader == null) {
+			return;
+		}
+
+		debugListener = listener;
+		reader.setSKDebugLIstener(listener);
+	}
+
+	/**
+	 * デバッグ情報のリスナー登録を解除
+	 */
+	public void removeSKDebugListener() {
+		debugListener = null;
+		reader.removeSKDebugListener();
 	}
 
 	/**
@@ -858,7 +893,7 @@ public class SKDevice {
 	 * @param data 送信データ
 	 * @return 送信処理開始に成功:true, 失敗:false
 	 */
-	public boolean sendUDP(byte handle, String ip6Address, int port, SKSecOption sec, String data) {
+	public boolean sendUDP(byte handle, String ip6Address, int port, SKSecOption sec, byte[] data) {
 		SKSendTo sksendto = new SKSendTo(handle, ip6Address, port, sec, data);
 		return sendCommandAndWaitOK(sksendto);
 	}
@@ -883,7 +918,7 @@ public class SKDevice {
 	 * @param data 送信データ
 	 * @return 送信処理開始に成功:true, 失敗:false
 	 */
-	public boolean sendTCP(byte handle, String data) {
+	public boolean sendTCP(byte handle, byte[] data) {
 		SKSend sksend = new SKSend(handle, data);
 		return sendCommandAndWaitOK(sksend);
 	}
@@ -1269,6 +1304,8 @@ public class SKDevice {
 			sendOK = command.issueCommand(out);
 			out.close();
 
+			debugOut(command);
+
 			if(sendOK) {
 				String[] res = reader.getResponse(1, commandTimeout);
 				if (res == null) {
@@ -1310,7 +1347,7 @@ public class SKDevice {
 			sendOK = command.issueCommand(out);
 			out.close();
 
-			Thread.sleep(0);
+			debugOut(command);
 
 			if(sendOK) {
 				res = reader.getResponse(numOfLine, commandTimeout);
@@ -1323,8 +1360,14 @@ public class SKDevice {
 		catch (IOException e) {
 			return null;
 		}
-		catch (InterruptedException e) {
-			 return null;
+	}
+
+	/**
+	 * デバッグ情報のリスナーが登録されていれば、コマンド文字列を通知
+	 */
+	private void debugOut(SKCommand command) {
+		if (debugListener != null) {
+			debugListener.debugOut(portString, command.getCommandString());
 		}
 	}
 

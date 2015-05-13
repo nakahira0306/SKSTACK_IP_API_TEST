@@ -1,5 +1,5 @@
 import com.skyley.skstack_ip.api.SKDevice;
-import com.skyley.skstack_ip.api.skcommands.SKEAddr;
+import com.skyley.skstack_ip.api.skevents.SKEAddr;
 import com.skyley.skstack_ip.api.skevents.SKEHandle;
 import com.skyley.skstack_ip.api.skevents.SKENeighbor;
 
