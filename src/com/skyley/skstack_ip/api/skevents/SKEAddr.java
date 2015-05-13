@@ -1,7 +1,6 @@
-package com.skyley.skstack_ip.api.skcommands;
+package com.skyley.skstack_ip.api.skevents;
 
 import com.skyley.skstack_ip.api.SKUtil;
-import com.skyley.skstack_ip.api.skevents.SKEvent;
 
 /**
  * EADDRイベントに対応したクラス、SKEventを実装

@@ -6,6 +6,8 @@ import com.skyley.skstack_ip.api.SKDevice;
 public class Test {
 
 	public static void main(String args[]) {
+		System.err.println("Test Start!");
+
 		SKDevice device1 = new SKDevice();
 		device1.connect("COM3");
 
@@ -21,7 +23,6 @@ public class Test {
 
 		TableTest tt = new TableTest(device1);
 		tt.doTest();
-
 
 		ScanTest st = new ScanTest(device1, device2);
 		st.doTest();
@@ -46,7 +47,7 @@ public class Test {
 		device1.close();
 		device2.close();
 
-		System.out.println("Done!");
+		System.err.println("Test Done!");
 	}
 
 }

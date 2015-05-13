@@ -37,7 +37,7 @@ public class TcpTest implements SKEventListener {
 		}
 	}
 
-	public void doTest(String data, int numTx) {
+	public void doTest(byte[] data, int numTx) {
 		device1.resetStack();
 		device2.resetStack();
 

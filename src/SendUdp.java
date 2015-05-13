@@ -6,11 +6,11 @@ import com.skyley.skstack_ip.api.skenums.SKSecOption;
 public class SendUdp implements Runnable {
 	private SKDevice device;
 	private String ip6Address;
-	private String data;
+	private byte[] data;
 	private int numTx;
 	private long interval;
 
-	public SendUdp(SKDevice device, String ip6Address, String data, int numTx, long interval) {
+	public SendUdp(SKDevice device, String ip6Address, byte[] data, int numTx, long interval) {
 		this.device = device;
 		this.ip6Address = ip6Address;
 		this.data = data;

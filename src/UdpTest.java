@@ -34,7 +34,7 @@ public class UdpTest implements SKEventListener {
 		device2.setSKEventListener(this);
 	}
 
-	public void doTest(String data, int numTx, long interval) {
+	public void doTest(byte[] data, int numTx, long interval) {
 		device1.resetStack();
 		device2.resetStack();
 
@@ -52,7 +52,7 @@ public class UdpTest implements SKEventListener {
 
 		SendUdp su1 = new SendUdp(device1, ip6Address2, data, numTx,interval);
 		SendUdp su2 = new SendUdp(device2, ip6Address1, data, numTx,interval);
-		dataLen = data.length();
+		dataLen = data.length;
 		Thread t1 = new Thread(su1);
 		Thread t2 = new Thread(su2);
 

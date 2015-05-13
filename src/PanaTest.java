@@ -53,8 +53,11 @@ public class PanaTest implements SKEventListener {
 		device2.joinPAA("FE80:0000:0000:0000:1034:5678:ABCD:EF01");
 		waitProcess();
 
-		device2.sendUDP((byte)1, "FE80:0000:0000:0000:1034:5678:ABCD:EF01", 0xE1A, SKSecOption.SEC_OR_NO_TX, "#PaC_TEST_UDP*");
-		device1.sendUDP((byte)1, "FE80:0000:0000:0000:1034:5678:ABCD:EF02", 0xE1A, SKSecOption.SEC_OR_NO_TX, "$PAA_TEST_UDP@");
+		byte[] data1 = {0x12, 0x34, 0x56, 0x78};
+		byte[] data2 = {0x21, 0x43, 0x65, (byte) 0xFF};
+
+		device2.sendUDP((byte)1, "FE80:0000:0000:0000:1034:5678:ABCD:EF01", 0xE1A, SKSecOption.SEC_OR_NO_TX, data1);
+		device1.sendUDP((byte)1, "FE80:0000:0000:0000:1034:5678:ABCD:EF02", 0xE1A, SKSecOption.SEC_OR_NO_TX, data2);
 
 		device2.termPAA();
 		waitProcess();
