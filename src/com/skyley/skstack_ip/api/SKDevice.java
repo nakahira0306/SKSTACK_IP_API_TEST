@@ -91,14 +91,6 @@ public class SKDevice {
 	}
 
 	/**
-	 * コンストラクタ
-	 * @param model デバイス機種
-	 */
-	public SKDevice(SKDeviceModel model) {
-		this.model = model;
-	}
-
-	/**
 	 * デバイスと接続
 	 * @param portString 接続先ポート名
 	 * @return true 接続に成功:true, 失敗:false
@@ -785,6 +777,7 @@ public class SKDevice {
 			return -1;
 		}
 	}
+
 	/**
 	 * コマンド入力のエコーバックフラグを取得
 	 * @return ON(エコーバックする):1, OFF(しない):0, 取得に失敗:-1
@@ -1364,6 +1357,7 @@ public class SKDevice {
 
 	/**
 	 * デバッグ情報のリスナーが登録されていれば、コマンド文字列を通知
+	 * @param command SKCommandのインスタンス
 	 */
 	private void debugOut(SKCommand command) {
 		if (debugListener != null) {

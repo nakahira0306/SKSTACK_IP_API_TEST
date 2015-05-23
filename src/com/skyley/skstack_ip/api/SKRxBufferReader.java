@@ -1,5 +1,6 @@
 package com.skyley.skstack_ip.api;
 
+import java.util.ArrayList;
 import java.util.concurrent.ArrayBlockingQueue;
 import java.util.concurrent.BlockingQueue;
 import java.util.concurrent.TimeUnit;
@@ -85,11 +86,18 @@ public class SKRxBufferReader implements Runnable {
 
 	/**
 	 * bufferから読み取った応答文字列を取得
-	 * @param numOfLine 応答の行数
+	 * @param numOfLine 応答の行数（0の場合はエラーコードが返るまで取得）
 	 * @param timeout タイムアウト（単位 ミリ秒）
 	 * @return 応答文字列を格納した配列（1行1要素）、取得できなかった場合はnull
 	 */
 	public String[] getResponse(int numOfLine, long timeout) {
+		if (numOfLine < 0) {
+			return null;
+		}
+		else if (numOfLine == 0) {
+			return getResponse(timeout);
+		}
+
 		String[] res = new String[numOfLine];
 
 		try {
@@ -111,6 +119,36 @@ public class SKRxBufferReader implements Runnable {
 			return res;
 		}
 		catch(Exception e) {
+			return null;
+		}
+	}
+
+	/**
+	 * bufferから読み取った応答文字列を取得、エラーコードが返るか、読み取りがタイムアウトしたらreturnする
+	 * @param timeout タイムアウト（単位 ミリ秒）
+	 * @return 応答文字列を格納した配列（1行1要素）、取得できなかった場合はnull
+	 */
+	private String[] getResponse(long timeout) {
+		String line;
+		ArrayList<String> list = new ArrayList<String>();
+
+		try {
+			while (true) {
+				line = response.poll(timeout, TimeUnit.MILLISECONDS);
+				if (line == null) {
+					return (String[]) list.toArray(new String[0]);
+				}
+
+				list.add(line);
+				for (SKErrorCode code : SKErrorCode.values()) {
+					// エラーコードと合致した場合は、その時点まで読みとった内容を返す
+					if (line.trim().startsWith(code.toString())) {
+						return (String[]) list.toArray(new String[0]);
+					}
+				}
+			}
+		} catch (InterruptedException e) {
+			// TODO 自動生成された catch ブロック
 			return null;
 		}
 	}

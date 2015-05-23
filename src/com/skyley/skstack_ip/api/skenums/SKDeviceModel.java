@@ -7,5 +7,7 @@ package com.skyley.skstack_ip.api.skenums;
 */
 public enum SKDeviceModel {
 	/** 汎用 */
-	GENERAL;
+	GENERAL,
+	/** HAN拡張 */
+	HAN_EXTENSION;
 }

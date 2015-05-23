@@ -1,6 +1,5 @@
 /com/
 /Debug.class
-/PanaTest.class
 /RegisterTest.class
 /ScanTest.class
 /SendUdp.class
@@ -8,3 +7,7 @@
 /TcpTest.class
 /Test.class
 /UdpTest.class
+/PanaTest.class
+/EventListener.class
+/EventListener$Debug.class
+/HanPanaTest.class

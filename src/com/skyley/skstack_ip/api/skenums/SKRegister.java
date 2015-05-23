@@ -14,14 +14,24 @@ public enum SKRegister {
 	PAN_ID("S03"),
 	/** MAC層セキュリティフレームカウンタ(Read only) */
 	SEC_FRAME_COUNTER("S07"),
-	/** Paring ID */
+	/** Paring ID（ASCII文字列） */
 	PARING_ID("S0A"),
+	/** paring ID（バイト列） */
+	PARING_ID_BYTE("S0B"),
 	/** ビーコン応答制御フラグ */
 	BEACON_RESPONSE("S15"),
 	/** PANAセッションライフタイム（単位 秒） */
 	PANA_SESSION_LIFETIME("S16"),
 	/** PANA自動再認証フラグ */
 	PANA_AUTO_AUTH("S17"),
+	/** PAA鍵更新周期（単位 秒） */
+	PAA_KEY_UPDATE_PERIOD("S1C"),
+	/** 鍵切り替えメッセージ送信回数 */
+	PAA_KEY_UPDATE_MESSAGE_NUM("S1D"),
+	/** リレーデバイスモード */
+	RELAY_DEVICE_MODE("S1E"),
+	/** リレーデバイスアドレス（Read Only） */
+	RELAY_DEVICE_ADDRESS("S1F"),
 	/** MAC層ブロードキャストに対するセキュリティ制御フラグ */
 	MAC_BROADCAST_SEC("SA0"),
 	/** ICMPメッセージ受信処理制御フラグ */

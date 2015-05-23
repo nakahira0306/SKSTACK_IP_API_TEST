@@ -20,7 +20,7 @@ public enum SKEventNumber {
 	UDP_TX_DONE(0x21),
 	/** アクティブスキャンが完了した */
 	ACTIVE_SCAN_DONE(0x22),
-	//* PANA接続が完了しなかった */
+	/** PANA接続が完了しなかった */
 	PANA_CONNECT_FAIL(0x24),
 	/** PANA接続が完了した */
 	PANA_CONNECT_DONE(0x25),
@@ -35,7 +35,37 @@ public enum SKEventNumber {
 	/** 送信総和時間の制限が発動した */
 	TX_LIMIT_START(0x32),
 	/** 送信総和時間の制限が解除された */
-	TX_LIMIT_END(0x33);
+	TX_LIMIT_END(0x33),
+	/** 鍵要求メッセージを送信した（PaCで発生） */
+	KEY_REQUEST_TX_DONE(0x40),
+	/** 鍵要求に対する応答を受信した（PaCで発生） */
+	KEY_REQUEST_RESPONSE_RECEIVED(0x41),
+	/** 鍵要求に対する応答が受信できなかった（PaCで発生） */
+	KEY_REQUEST_RESPONSE_NOT_RECEIVED(0x42),
+	/** 鍵配布メッセージを受信した（PaCで発生） */
+	KEY_DISTRIBUTION_RECEIVED(0x43),
+	/** 鍵切り替えメッセージを受信した（PaCで発生） */
+	KEY_UPDATE_RECEIVED(0x44),
+	/** 現在使用中の暗号鍵と異なるキーインデックスの暗号文を受信した（PaCで発生） */
+	KEY_INDEX_UNMATCHED(0x45),
+	/** 鍵切り替えメッセージが受信できずタイムアウトした（PaCで発生） */
+	KEY_UPDATE_TIMEOUT(0x46),
+	/** 鍵配布メッセージを送信した（PAAで発生） */
+	KEY_DISTRIBUTION_TX_DONE(0x50),
+	/** 鍵配布に対する応答を受信した（PAAで発生） */
+	KEY_DISTRIBUTION_RESPONSE_RECEIVED(0x51),
+	/** 鍵配布に対する応答が受信できなかった（PAAで発生） */
+	KEY_DISITRIBUTION_RESPONSE_NOT_RECEIVED(0x52),
+	/** 鍵要求メッセージを受信した（PAAで発生） */
+	KEY_REQUEST_RECEIVED(0x53),
+	/** 自動鍵配信処理を開始した（PAAで発生） */
+	KEY_AUTO_DISTRIBUTION_START(0x54),
+	/** 自動鍵配信処理を終了した（PAAで発生） */
+	KEY_AUTO_DISTRIBUTION_END(0x55),
+	/** イニシャルモードを開始した */
+	INITIAL_MODE_START(0x56),
+	/** イニシャルモードが終了した */
+	INITIAL_MODE_END(0x57);
 
 	/** イベント番号 */
 	private short number;

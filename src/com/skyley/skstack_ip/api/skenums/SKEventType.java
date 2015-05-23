@@ -15,6 +15,8 @@ public enum SKEventType {
 	EVER(true),
 	EADDR(true),
 	ENEIGHBOR(true),
+	ENBR(true),
+	ESEC(true),
 	EHANDLE(true),
 	EPANDESC(false),
 	EEDSCAN(false),

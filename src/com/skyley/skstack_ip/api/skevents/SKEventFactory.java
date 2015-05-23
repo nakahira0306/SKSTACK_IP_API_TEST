@@ -39,14 +39,28 @@ public class SKEventFactory {
 
 			case EPANDESC:
 				StringBuilder sb = new StringBuilder();
+				int num;
+
+				switch (model) {
+					case GENERAL:
+						num = 6;
+						break;
+
+					case HAN_EXTENSION:
+						num = 9;
+						break;
+
+					default:
+						return new SKEPanDesc("", model);
+				}
 
 				try {
-					for (int i = 0; i < 6; i++) {
+					for (int i = 0; i < num; i++) {
 						res = buffer.poll(1, TimeUnit.SECONDS);
 						debugOut(listener, port, res);
 
 						if (res == null) {
-							return new SKEPanDesc(sb.toString());
+							return new SKEPanDesc(sb.toString(), model);
 						}
 						else {
 							sb.append(res.trim());
@@ -54,10 +68,10 @@ public class SKEventFactory {
 						}
 					}
 
-					return new SKEPanDesc(sb.toString());
+					return new SKEPanDesc(sb.toString(), model);
 				}
 				catch (InterruptedException e) {
-					return new SKEPanDesc("");
+					return new SKEPanDesc("", model);
 				}
 
 			case EEDSCAN:
