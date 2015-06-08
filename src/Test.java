@@ -14,9 +14,9 @@ public class Test {
 		SKHanDevice device2 = new SKHanDevice();
 		device2.connect("COM4");
 
-		//Debug debug = new Debug();
-		//device1.setSKDebugListener(debug);
-		//device2.setSKDebugListener(debug);
+		Debug debug = new Debug();
+		device1.setSKDebugListener(debug);
+		device2.setSKDebugListener(debug);
 
 		HanPanaTest hpt = new HanPanaTest(device1, device2);
 		hpt.doTest();
